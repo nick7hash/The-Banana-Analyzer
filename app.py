@@ -5,7 +5,12 @@ import os
 
 app = Flask(__name__)
 
-model = tf.keras.models.load_model('trained_model.keras')
+model = None
+def get_model():
+    global model
+    if model == None:
+        model = tf.keras.models.load_model('trained_model.keras')
+    return model
 
 
 @app.route('/', methods = ['GET'])
@@ -24,6 +29,7 @@ def predict():
     image = tf.keras.preprocessing.image.load_img(image_path, target_size = (128,128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr])
+    model = get_model()
     pred = model.predict(input_arr)
     prediction = np.argmax(pred)
     result = classes[prediction]
@@ -31,4 +37,5 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    pass
+    # app.run(debug = True)
