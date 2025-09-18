@@ -31,4 +31,5 @@ def predict():
 
 
 if __name__ == "__main__":
+    pass
     # app.run(debug = True)
